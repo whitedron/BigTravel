@@ -1,16 +1,16 @@
-const EVENT_COUNT=3;
+const EVENT_COUNT = 3;
 
 const createMainMenuTemplate = () => {
-    return (
-        `<nav class="trip-controls__trip-tabs  trip-tabs">
+  return (
+    `<nav class="trip-controls__trip-tabs  trip-tabs">
       <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
       <a class="trip-tabs__btn" href="#">Stats</a>
     </nav>`
-    );
+  );
 };
 const createTripInfoTemplate = () => {
-    return (
-        `<section class="trip-main__trip-info  trip-info">
+  return (
+    `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
         <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
 
@@ -21,11 +21,11 @@ const createTripInfoTemplate = () => {
         Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
       </p>
     </section>`
-    );
+  );
 };
 const createMainFilterTemplate = () => {
-    return (
-        `<form class="trip-filters" action="#" method="get">
+  return (
+    `<form class="trip-filters" action="#" method="get">
         <div class="trip-filters__filter">
           <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
           <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
@@ -43,11 +43,11 @@ const createMainFilterTemplate = () => {
 
         <button class="visually-hidden" type="submit">Accept filter</button>
       </form>`
-    );
+  );
 };
 const createTripSortTemplate = () => {
-    return (
-        `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+  return (
+    `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
         <span class="trip-sort__item  trip-sort__item--day"></span>
 
         <div class="trip-sort__item  trip-sort__item--event">
@@ -71,11 +71,11 @@ const createTripSortTemplate = () => {
 
         <span class="trip-sort__item  trip-sort__item--offers">Offers</span>
       </form>`
-    );
+  );
 };
 const createTripListTemplate = () => {
-    return (
-        `<ul class="trip-days">
+  return (
+    `<ul class="trip-days">
           <li class="trip-days__item  day">
            <div class="day__info"></div>
 
@@ -83,12 +83,12 @@ const createTripListTemplate = () => {
            </ul>
           </li>
          </ul>`
-          
-    );
+
+  );
 };
 const createTripEventTemplate = () => {
-    return (
-        `<li class="trip-events__item">
+  return (
+    `<li class="trip-events__item">
         <div class="event">
           <div class="event__type">
             <img class="event__type-icon" width="42" height="42" src="img/icons/drive.png" alt="Event type icon">
@@ -114,11 +114,11 @@ const createTripEventTemplate = () => {
         </div>
       </li>
 `
-    );
+  );
 };
 const createTripEventEditItemTemplate = () => {
-    return(
-      `<li class="trip-events__item">
+  return (
+    `<li class="trip-events__item">
       <form class="event  event--edit" action="#" method="post">
         <header class="event__header">
           <div class="event__type-wrapper">
@@ -291,11 +291,11 @@ const createTripEventEditItemTemplate = () => {
         </section>
       </form>
     </li>`
-    );
+  );
 };
 const createTripEventCreateTemplate = () => {
-    return(
-      `<form class="trip-events__item  event  event--edit" action="#" method="post">
+  return (
+    `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -469,31 +469,31 @@ const createTripEventCreateTemplate = () => {
         </section>
       </section>
     </form>`
-    );
+  );
 };
 
 const render = (container, template, place = `beforeend`) => {
-    container.insertAdjacentHTML(place, template);
+  container.insertAdjacentHTML(place, template);
 };
 
 const tripHeaderElement = document.querySelector(`.trip-main`);
-render (tripHeaderElement, createTripInfoTemplate(), `afterbegin`);
+render(tripHeaderElement, createTripInfoTemplate(), `afterbegin`);
 
 const tripControlsElement = tripHeaderElement.querySelector(`.trip-main__trip-controls `);
 
-render (tripControlsElement.querySelector(`h2`), createMainMenuTemplate(), `afterend`);
-render (tripControlsElement, createMainFilterTemplate(), `beforeend`);
+render(tripControlsElement.querySelector(`h2`), createMainMenuTemplate(), `afterend`);
+render(tripControlsElement, createMainFilterTemplate(), `beforeend`);
 
 const tripEventsElement = document.querySelector(`.trip-events`);
-render (tripEventsElement, createTripSortTemplate(), `beforeend`);
+render(tripEventsElement, createTripSortTemplate(), `beforeend`);
 
-render (tripEventsElement, createTripListTemplate(), `beforeend`);
+render(tripEventsElement, createTripListTemplate(), `beforeend`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
-render (tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
-render (tripEventsListElement, createTripEventEditItemTemplate(), `beforeend`);
+render(tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
+render(tripEventsListElement, createTripEventEditItemTemplate(), `beforeend`);
 
-for(let i=0; i<EVENT_COUNT; i++) {
-    render (tripEventsListElement, createTripEventTemplate(), `beforeend`);
+for (let i = 0; i < EVENT_COUNT; i++) {
+  render(tripEventsListElement, createTripEventTemplate(), `beforeend`);
 }
