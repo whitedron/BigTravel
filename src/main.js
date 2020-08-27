@@ -6,8 +6,12 @@ import {createTripListTemplate} from './components/list.js';
 import {createTripEventTemplate} from './components/event.js';
 import {createTripEventEditItemTemplate} from './components/event-edit.js';
 import {createTripEventCreateTemplate} from './components/event-create.js';
+import {generateDestanation} from './mock/point';
 
 const EVENT_COUNT = 3;
+
+console.log(generateDestanation());
+
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
