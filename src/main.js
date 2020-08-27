@@ -7,10 +7,12 @@ import {createTripEventTemplate} from './components/event.js';
 import {createTripEventEditItemTemplate} from './components/event-edit.js';
 import {createTripEventCreateTemplate} from './components/event-create.js';
 import {generateDestanation} from './mock/point';
+import {generateOffers} from './mock/point';
 
 const EVENT_COUNT = 3;
 
-console.log(generateDestanation());
+//console.log(generateDestanation());
+//export const offers = generateOffers();
 
 
 const render = (container, template, place = `beforeend`) => {
