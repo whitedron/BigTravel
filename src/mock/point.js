@@ -20,10 +20,17 @@ export const generateDestanation = () => {
   };
 
   const DESCRIPTIONS = [
-    `the best city ever`,
-    `Germany style`,
-    `sweet place`,
-    `chipped and very delishious`
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+    `Cras aliquet varius magna, non porta ligulafeugiat eget.`,
+    `Fusce tristique felis at fermentum pharetra.`,
+    `Aliquam id orci ut lectus varius viverra.`,
+    `Nullamnunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+    `Phasellus eros mauris, condimentum sed nibhvitae, sodales efficitur ipsum.`,
+    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctusnunc ante ut dui.`,
+    `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+    `Aliquam erat volutpat.`,
+    `Nuncfermentum tortor ac porta dapibus.`,
+    `In rutrum ac purus sit amet tempus.`
   ];
   const NAMES = [
     `Prague`,
@@ -34,8 +41,13 @@ export const generateDestanation = () => {
     `Riga`
   ];
 
+  let description=``;
+  const descriptionSentencesCount=getRandomInteger(1,3)
+  for (let i=0; i<descriptionSentencesCount;i++) {
+    description = i == 0 ? DESCRIPTIONS[i] : `${description} ${DESCRIPTIONS[getRandomInteger(0,DESCRIPTIONS.length-1)]}`;
+  }
   return ({
-    description: DESCRIPTIONS[getRandomInteger(0,DESCRIPTIONS.length-1)],
+    description,
     name: NAMES[getRandomInteger(0,NAMES.length-1)],
     pictures: new Array(getRandomInteger(0,MAX_PHOTO_COUNT)).fill().map(generatePhoto)
   })
