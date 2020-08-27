@@ -75,23 +75,50 @@ export const generateOffers = () => {
   return offers;
 }
 
-//import {offers} from '../main.js';
+import {offers} from '../main.js';
 
-const generatePoint = () => {
+//const offers = generateOffers();
+
+const generatePoint = (initDate=0) => {
+
+  const EVENT_MINUTES_MAX_DELAY = 60*24;
+
   const type = POINT_TYPES[getRandomInteger(0,POINT_TYPES.length-1)];
   const pointTypeOffers = offers.find(item => (item.type == type));
-  const pointOffers = pointTypeOffers.offers.filter(item => getRandomInteger(0,1)===1);
+  const pointOffers = pointTypeOffers ? pointTypeOffers.offers.filter(item => getRandomInteger(0,1)===1) : [];
+
+  let date_from = new Date(initDate);
+  date_from.setMinutes(date_from.getMinutes()+getRandomInteger(0,EVENT_MINUTES_MAX_DELAY));
+  let date_to = new Date(date_from);
+  date_to.setMinutes(date_from.getMinutes()+getRandomInteger(0,EVENT_MINUTES_MAX_DELAY));
+
   const point = {
     base_price: getRandomInteger(1,200)*5,
     destination: generateDestanation(),
     type,
-    offers: pointOffers
+    offers: pointOffers,
+    date_from,
+    date_to
   }
   console.log(point);
   return point;
 
 }
 
-const offers = generateOffers();
-generatePoint();
-generatePoint();
+const MAX_POINT_COUNT = 10;
+const MIN_POINT_COUNT = 3;
+
+export const generatePoints = () => {
+  const START_TRIP_HOURS_GAP = 100;
+  let points = [];
+  const pointsCount= getRandomInteger(MIN_POINT_COUNT,MAX_POINT_COUNT);
+  let initDate=new Date();
+  initDate.setHours(initDate.getHours() + getRandomInteger(-START_TRIP_HOURS_GAP, START_TRIP_HOURS_GAP));
+  for(let i=0; i< pointsCount; i++) {
+    points[i]= generatePoint(initDate);
+    initDate = points[i].date_to;
+  }
+
+}
+
+

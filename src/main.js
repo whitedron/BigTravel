@@ -8,12 +8,15 @@ import {createTripEventEditItemTemplate} from './components/event-edit.js';
 import {createTripEventCreateTemplate} from './components/event-create.js';
 import {generateDestanation} from './mock/point';
 import {generateOffers} from './mock/point';
+import {generatePoints} from './mock/point';
 
 const EVENT_COUNT = 3;
 
 //console.log(generateDestanation());
 //export const offers = generateOffers();
 
+export const offers = generateOffers();
+const points = generatePoints();
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
