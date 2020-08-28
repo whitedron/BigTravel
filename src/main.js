@@ -37,8 +37,8 @@ render(tripEventsElement, createTripListTemplate(), `beforeend`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
-render(tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
-// render(tripEventsListElement, createTripEventEditItemTemplate(), `beforeend`);
+//render(tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
+render(tripEventsListElement, createTripEventEditItemTemplate(points[0], offers), `beforeend`);
 
 for (let i = 1; i < points.length; i++) {
   render(tripEventsListElement, createTripEventTemplate(points[i]), `beforeend`);

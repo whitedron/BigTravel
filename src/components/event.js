@@ -20,15 +20,15 @@ const getTimeInHHMM = (date) => {
 };
 
 const getDatesDifference = (dateFrom = 0, dateTo = 0) => {
-const differenceInMinutes = Math.floor(dateTo/(60*1000)) - Math.floor(dateFrom/(60*1000));
-const differenceMinutes = differenceInMinutes%60 <10 ? `0${differenceInMinutes%60}M` : `${differenceInMinutes%60}M` ;
-const differenceHours = (Math.floor(differenceInMinutes/60))%24 < 10 ? `0${Math.floor((differenceInMinutes/60))%24}H` : `${Math.floor((differenceInMinutes/60))%24}H`;
-const differenceDays = Math.floor(differenceInMinutes/(60*24))<10 ? `0${Math.floor(differenceInMinutes/(60*24))}D` : `${Math.floor(differenceInMinutes/(60*24))}D`;
+  const differenceInMinutes = Math.floor(dateTo / (60 * 1000)) - Math.floor(dateFrom / (60 * 1000));
+  const differenceMinutes = differenceInMinutes % 60 < 10 ? `0${differenceInMinutes % 60}M` : `${differenceInMinutes % 60}M`;
+  const differenceHours = (Math.floor(differenceInMinutes / 60)) % 24 < 10 ? `0${Math.floor((differenceInMinutes / 60)) % 24}H` : `${Math.floor((differenceInMinutes / 60)) % 24}H`;
+  const differenceDays = Math.floor(differenceInMinutes / (60 * 24)) < 10 ? `0${Math.floor(differenceInMinutes / (60 * 24))}D` : `${Math.floor(differenceInMinutes / (60 * 24))}D`;
 
-if (differenceInMinutes < 0) {return ``};  /// ошибка дат
-if (differenceInMinutes < 60) {return `${differenceMinutes}`};  // до часа
-if (differenceInMinutes < 60*24) {return `${differenceHours} ${differenceMinutes}`};  // до суток
-return `${differenceDays} ${differenceHours} ${differenceMinutes}`;
+  if (differenceInMinutes < 0) { return `` };  /// ошибка дат
+  if (differenceInMinutes < 60) { return `${differenceMinutes}` };  // до часа
+  if (differenceInMinutes < 60 * 24) { return `${differenceHours} ${differenceMinutes}` };  // до суток
+  return `${differenceDays} ${differenceHours} ${differenceMinutes}`;
 };
 
 export const createTripEventTemplate = (point) => {
@@ -37,7 +37,7 @@ export const createTripEventTemplate = (point) => {
   const eventOffers = offers.length > 0
     ? `<h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-      ${renderOffers(offers.slice(0,2))}
+      ${renderOffers(offers.slice(0,3))}
     </ul>`
     : ``;
 

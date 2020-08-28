@@ -110,7 +110,8 @@ const generatePoint = (initDate = 0) => {
     type,
     offers: pointOffers,
     date_from: dateFrom,
-    date_to: dateTo
+    date_to: dateTo,
+    is_favorite: getRandomInteger(1,5) === 5,
   };
 
   console.log(point);
