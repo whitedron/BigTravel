@@ -32,9 +32,16 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
 
   const currentTypeOffersTemplate = currentTypeOffers.map((offerTypeItem) => {
    return offerTypeItem.offers.map((offer) => {
+   const isCheckedOffer = offers.find((item) => (item.title == offer.title) && (item.price == offer.price))  ? `checked` : ``;
+    offers.forEach(item => {
+      console.log(item.title, offer.title, item.title == offer.title);
+      console.log(item.price, offer.price, item.price == offer.price);
+
+    });
+
        return `
        <div class="event__offer-selector">
-       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-${offer.price}" type="checkbox" name="event-offer-${offer.title}-${offer.price}">
+       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-${offer.price}" type="checkbox" name="event-offer-${offer.title}-${offer.price}" ${isCheckedOffer}>
        <label class="event__offer-label" for="event-offer-${offer.title}-${offer.price}">
          <span class="event__offer-title">${offer.title}</span>
          &plus;
