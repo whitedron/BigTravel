@@ -33,12 +33,6 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
   const currentTypeOffersTemplate = currentTypeOffers.map((offerTypeItem) => {
    return offerTypeItem.offers.map((offer) => {
    const isCheckedOffer = offers.find((item) => (item.title == offer.title) && (item.price == offer.price))  ? `checked` : ``;
-    offers.forEach(item => {
-      console.log(item.title, offer.title, item.title == offer.title);
-      console.log(item.price, offer.price, item.price == offer.price);
-
-    });
-
        return `
        <div class="event__offer-selector">
        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-${offer.price}" type="checkbox" name="event-offer-${offer.title}-${offer.price}" ${isCheckedOffer}>
@@ -63,6 +57,32 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
   </section>`
     : ``;
 
+    destination.pictures.forEach(element => {
+  console.log(element)
+});
+
+const destinationPhotosList = destination.pictures.map(item =>
+  `<img class="event__photo" src="${item.src}" alt="${item.description}"></img>`
+).join(``);
+
+const destinationPhotosTemplate = destinationPhotosList === `` ? `` : `
+<div class="event__photos-container">
+<div class="event__photos-tape">
+${destinationPhotosList}
+</div>
+</div>
+`;
+const destinationDescription = destination.description === `` ? `` : `
+  <p class="event__destination-description">${destination.description}</p>
+`;
+
+const currentItemDestanationInfo = destinationPhotosTemplate != `` || destinationDescription != `` ?
+ `<section class="event__section  event__section--destination">
+ <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+ ${destinationDescription}
+ ${destinationPhotosTemplate}
+  </section>`
+  :``;
 
   const isFavorite = is_favorite ? `checked` : ``;
   return (
@@ -141,6 +161,7 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
 
         <section class="event__details">
           ${currentItemOffers}
+          ${currentItemDestanationInfo}
         </section>
       </form>
     </li>`
