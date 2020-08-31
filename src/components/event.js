@@ -1,3 +1,5 @@
+//import {createDayListTemplate} from './day-event-list.js';
+
 const renderAction = (type) => {
   const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
   const action = MOVEMENTS.has(type) ? `${type} to` : `${type} in`;
