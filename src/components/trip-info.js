@@ -30,10 +30,31 @@ export const createTripInfoTemplate = (points) => {
     }
   }
 
+  const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
+  let cities = points.filter((item) => MOVEMENTS.has(item.type)).map((item) => item.destination.name);
+
+  for (let i=0; i<cities.length-1; i++) {
+    if (cities[i] === cities[i+1]) {
+      cities.splice(i,1);
+    }
+  }
+
+
+  let tripRoute=``;
+  if (cities.length === 1) {
+    tripRoute = cities[0]
+  } else {
+    if (cities.length < 4) {
+      tripRoute = cities.join(` &mdash; `)
+    } else {
+      tripRoute = [cities[0], `&hellip;`,cities[cities.length-1]].join(` &mdash; `)
+    }
+  };
+
   return (
     `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
-        <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
+        <h1 class="trip-info__title">${tripRoute}</h1>
 
         <p class="trip-info__dates">${tripDates}</p>
       </div>
