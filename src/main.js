@@ -41,9 +41,27 @@ const tripEventsListElement = tripEventsElement.querySelector(`.trip-days`);
 //render(tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
 //render(tripEventsListElement, createTripEventEditItemTemplate(points[0], offers), `beforeend`);
 const firstDay = new Date(points[0].date_from.getFullYear(), points[0].date_from.getMonth(), points[0].date_from.getDate() );
+const date = points[0].date_from;
+
+  const day = date.getDate()<10 ? `0${date.getDate()}` : `${date.getDate()}`;
+  const month = (date.getMonth()+1)<10 ? `0${(date.getMonth()+1)}` : `${(date.getMonth()+1)}`;
+  const year = `${date.getFullYear()}`;
+
+  const currentEventDateContainer = tripEventsListElement.querySelector(`.day__date[datetime="${year}-${month}-${day}"]`);
+
+  const tripDaysCount = Math.floor((date - firstDay) / (60 * 24 * 60 * 1000));
+
+  if (!currentEventDateContainer) {
+    render(tripEventsListElement, createDayListTemplate(date, tripDaysCount+ 1), `beforeend`);
+  };
+  const currentDateContainer = tripEventsListElement.querySelector(`.day__date[datetime="${year}-${month}-${day}"]`)
+  .closest(`.trip-days__item`)
+  .querySelector(`.trip-events__list`);
+
+  render(currentDateContainer, createTripEventEditItemTemplate(points[0], offers), `beforeend`);
 
 
-for (let i = 0; i < points.length; i++) {
+for (let i = 1; i < points.length; i++) {
   const date = points[i].date_from;
 
   const day = date.getDate()<10 ? `0${date.getDate()}` : `${date.getDate()}`;

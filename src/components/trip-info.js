@@ -32,13 +32,14 @@ export const createTripInfoTemplate = (points) => {
 
   const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
   let cities = points.filter((item) => MOVEMENTS.has(item.type)).map((item) => item.destination.name);
-
-  for (let i=0; i<cities.length-1; i++) {
+  console.log(cities);
+  for (let i=0; i<cities.length; i++) {
     if (cities[i] === cities[i+1]) {
       cities.splice(i,1);
+      i=-1;
     }
   }
-
+  console.log(cities);
 
   let tripRoute=``;
   if (cities.length === 1) {

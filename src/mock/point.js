@@ -32,7 +32,7 @@ export const generateDestanation = () => {
     `Nuncfermentum tortor ac porta dapibus.`,
     `In rutrum ac purus sit amet tempus.`
   ];
-  const NAMES = [
+   const NAMES = [
     `Prague`,
     `Minsk`,
     `Brest`,
@@ -40,7 +40,6 @@ export const generateDestanation = () => {
     `Munich`,
     `Riga`
   ];
-
   let description = ``;
   const descriptionSentencesCount = getRandomInteger(1, 3);
   for (let i = 0; i < descriptionSentencesCount; i++) {
