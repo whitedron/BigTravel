@@ -1,4 +1,4 @@
-import {createMainMenuTemplate} from './components/main-menu.js';
+import SiteMenu from './components/main-menu.js';
 import {createTripInfoTemplate} from './components/trip-info.js';
 import {createMainFilterTemplate} from './components/filter.js';
 import {createTripSortTemplate} from './components/sort.js';
@@ -10,6 +10,7 @@ import {createDayListTemplate} from './components/day-event-list.js';
 import {generateDestanation} from './mock/point';
 import {generateOffers} from './mock/point';
 import {generatePoints} from './mock/point';
+import {renderTemplate, renderElement, RenderPosition} from './utils.js';
 
 const EVENT_COUNT = 3;
 
@@ -19,22 +20,24 @@ const EVENT_COUNT = 3;
 export const offers = generateOffers();
 const points = generatePoints();
 
-const render = (container, template, place = `beforeend`) => {
+/* const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
-};
+}; */
 
 const tripHeaderElement = document.querySelector(`.trip-main`);
-render(tripHeaderElement, createTripInfoTemplate(points), `afterbegin`);
+renderTemplate(tripHeaderElement, createTripInfoTemplate(points), `afterbegin`);
 
 const tripControlsElement = tripHeaderElement.querySelector(`.trip-main__trip-controls `);
 
-render(tripControlsElement.querySelector(`h2`), createMainMenuTemplate(), `afterend`);
-render(tripControlsElement, createMainFilterTemplate(), `beforeend`);
+//renderTemplate(tripControlsElement.querySelector(`h2`), createMainMenuTemplate(), `afterend`);
+renderElement(tripControlsElement, new SiteMenu().getElement(), RenderPosition.AFTER, tripControlsElement.querySelector(`h2`));
+
+renderTemplate(tripControlsElement, createMainFilterTemplate(), `beforeend`);
 
 const tripEventsElement = document.querySelector(`.trip-events`);
-render(tripEventsElement, createTripSortTemplate(), `beforeend`);
+renderTemplate(tripEventsElement, createTripSortTemplate(), `beforeend`);
 
-render(tripEventsElement, createTripListTemplate(), `beforeend`);
+renderTemplate(tripEventsElement, createTripListTemplate(), `beforeend`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-days`);
 
@@ -52,13 +55,13 @@ const date = points[0].date_from;
   const tripDaysCount = Math.floor((date - firstDay) / (60 * 24 * 60 * 1000));
 
   if (!currentEventDateContainer) {
-    render(tripEventsListElement, createDayListTemplate(date, tripDaysCount+ 1), `beforeend`);
+    renderTemplate(tripEventsListElement, createDayListTemplate(date, tripDaysCount+ 1), `beforeend`);
   };
   const currentDateContainer = tripEventsListElement.querySelector(`.day__date[datetime="${year}-${month}-${day}"]`)
   .closest(`.trip-days__item`)
   .querySelector(`.trip-events__list`);
 
-  render(currentDateContainer, createTripEventEditItemTemplate(points[0], offers), `beforeend`);
+  renderTemplate(currentDateContainer, createTripEventEditItemTemplate(points[0], offers), `beforeend`);
 
 
 for (let i = 1; i < points.length; i++) {
@@ -73,11 +76,11 @@ for (let i = 1; i < points.length; i++) {
   const tripDaysCount = Math.floor((date - firstDay) / (60 * 24 * 60 * 1000));
 
   if (!currentEventDateContainer) {
-    render(tripEventsListElement, createDayListTemplate(date, tripDaysCount+ 1), `beforeend`);
+    renderTemplate(tripEventsListElement, createDayListTemplate(date, tripDaysCount+ 1), `beforeend`);
   };
   const currentDateContainer = tripEventsListElement.querySelector(`.day__date[datetime="${year}-${month}-${day}"]`)
   .closest(`.trip-days__item`)
   .querySelector(`.trip-events__list`);
 
-  render(currentDateContainer, createTripEventTemplate(points[i]), `beforeend`);
+  renderTemplate(currentDateContainer, createTripEventTemplate(points[i]), `beforeend`);
 }
