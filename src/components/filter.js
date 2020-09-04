@@ -1,4 +1,6 @@
-export const createMainFilterTemplate = () => {
+import {createElement} from "../utils.js";
+
+const createMainFilterTemplate = () => {
   return (
     `<form class="trip-filters" action="#" method="get">
         <div class="trip-filters__filter">
@@ -20,3 +22,25 @@ export const createMainFilterTemplate = () => {
       </form>`
   );
 };
+
+export default class MainFilter {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMainFilterTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
