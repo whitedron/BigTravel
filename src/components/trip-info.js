@@ -1,19 +1,6 @@
-export const createTripInfoTemplate = (points) => {
+import {createElement, getFormattedDate} from '../utils.js';
 
-  const getFormattedDate = (date) => {
-    const day = date.getDate()<10 ? `0${date.getDate()}` : `${date.getDate()}`;
-    const month = (date.getMonth()+1)<10 ? `0${(date.getMonth()+1)}` : `${(date.getMonth()+1)}`;
-    const year = `${date.getFullYear()}`;
-    const textMonth = date.toLocaleString(`en`, {
-      month: `short`
-    });
-   return {
-     day,
-     month,
-     year,
-     textMonth
-   };
-  };
+const createTripInfoTemplate = (points) => {
 
   if (points.length === 0) {
     return (
@@ -47,7 +34,8 @@ export const createTripInfoTemplate = (points) => {
   for (let i=0; i<cities.length; i++) {
     if (cities[i] === cities[i+1]) {
       cities.splice(i,1);
-      i=-1;
+     // i=-1;
+     i--;
     }
   }
   console.log(cities);
@@ -77,3 +65,26 @@ export const createTripInfoTemplate = (points) => {
     </section>`
   );
 };
+
+export default class TripInfo {
+  constructor(points) {
+    this._points = points;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripInfoTemplate(this._points);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

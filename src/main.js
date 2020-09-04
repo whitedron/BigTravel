@@ -3,6 +3,7 @@ import MainFilter from './components/filter.js';
 import EventSort from './components/sort.js';
 import EventList from './components/list.js';
 import BlankList from './components/blank-list.js';
+import TripInfo from './components/trip-info.js';
 import {createTripInfoTemplate} from './components/trip-info.js';
 //import {createMainFilterTemplate} from './components/filter.js';
 //import {createTripSortTemplate} from './components/sort.js';
@@ -29,7 +30,8 @@ const points = generatePoints();
 }; */
 
 const tripHeaderElement = document.querySelector(`.trip-main`);
-renderTemplate(tripHeaderElement, createTripInfoTemplate(points), `afterbegin`);
+//renderTemplate(tripHeaderElement, createTripInfoTemplate(points), `afterbegin`);
+renderElement(tripHeaderElement, new TripInfo(points).getElement(), RenderPosition.AFTERBEGIN);
 
 const tripControlsElement = tripHeaderElement.querySelector(`.trip-main__trip-controls `);
 
