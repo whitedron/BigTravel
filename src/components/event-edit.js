@@ -16,13 +16,13 @@ const renderTypesList = (eventTypes, checkedType) => {
 
 //// 18/03/19 12:25
 const getFormatedDate = (date) => {
- const day = date.getDate()<10 ? `0${date.getDate()}` : `${date.getDate()}`;
- const month = (date.getMonth()+1)<10 ? `0${(date.getMonth()+1)}` : `${(date.getMonth()+1)}`;
- const year = `${date.getFullYear()}`.slice(-2);
- const hour = date.getHours()<10 ? `0${date.getHours()}` : `${date.getHours()}`;
- const minutes = date.getMinutes()<10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
+  const month = (date.getMonth() + 1) < 10 ? `0${(date.getMonth() + 1)}` : `${(date.getMonth() + 1)}`;
+  const year = `${date.getFullYear()}`.slice(-2);
+  const hour = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
+  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
 
- return `${day}/${month}/${year} ${hour}:${minutes}`;
+  return `${day}/${month}/${year} ${hour}:${minutes}`;
 }
 
 export const createTripEventEditItemTemplate = (point, allOffers) => {
@@ -31,9 +31,9 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
   const currentTypeOffers = allOffers.filter(item => item.type === type);
 
   const currentTypeOffersTemplate = currentTypeOffers.map((offerTypeItem) => {
-   return offerTypeItem.offers.map((offer) => {
-   const isCheckedOffer = offers.find((item) => (item.title == offer.title) && (item.price == offer.price))  ? `checked` : ``;
-       return `
+    return offerTypeItem.offers.map((offer) => {
+      const isCheckedOffer = offers.find((item) => (item.title == offer.title) && (item.price == offer.price)) ? `checked` : ``;
+      return `
        <div class="event__offer-selector">
        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-${offer.price}" type="checkbox" name="event-offer-${offer.title}-${offer.price}" ${isCheckedOffer}>
        <label class="event__offer-label" for="event-offer-${offer.title}-${offer.price}">
@@ -47,7 +47,7 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
   }).join(``);
 
 
-    const currentItemOffers = currentTypeOffersTemplate !=``
+  const currentItemOffers = currentTypeOffersTemplate != ``
     ? `<section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
@@ -57,32 +57,28 @@ export const createTripEventEditItemTemplate = (point, allOffers) => {
   </section>`
     : ``;
 
-    destination.pictures.forEach(element => {
-  console.log(element)
-});
+  const destinationPhotosList = destination.pictures.map(item =>
+    `<img class="event__photo" src="${item.src}" alt="${item.description}"></img>`
+  ).join(``);
 
-const destinationPhotosList = destination.pictures.map(item =>
-  `<img class="event__photo" src="${item.src}" alt="${item.description}"></img>`
-).join(``);
-
-const destinationPhotosTemplate = destinationPhotosList === `` ? `` : `
+  const destinationPhotosTemplate = destinationPhotosList === `` ? `` : `
 <div class="event__photos-container">
 <div class="event__photos-tape">
 ${destinationPhotosList}
 </div>
 </div>
 `;
-const destinationDescription = destination.description === `` ? `` : `
+  const destinationDescription = destination.description === `` ? `` : `
   <p class="event__destination-description">${destination.description}</p>
 `;
 
-const currentItemDestanationInfo = destinationPhotosTemplate != `` || destinationDescription != `` ?
- `<section class="event__section  event__section--destination">
+  const currentItemDestanationInfo = destinationPhotosTemplate != `` || destinationDescription != `` ?
+    `<section class="event__section  event__section--destination">
  <h3 class="event__section-title  event__section-title--destination">Destination</h3>
  ${destinationDescription}
  ${destinationPhotosTemplate}
   </section>`
-  :``;
+    : ``;
 
   const isFavorite = is_favorite ? `checked` : ``;
   return (
@@ -99,7 +95,7 @@ const currentItemDestanationInfo = destinationPhotosTemplate != `` || destinatio
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Transfer</legend>
-                 ${renderTypesList(POINT_TYPES.slice(0,-3), type)}
+                 ${renderTypesList(POINT_TYPES.slice(0, -3), type)}
 
               </fieldset>
 

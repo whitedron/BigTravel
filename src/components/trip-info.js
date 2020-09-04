@@ -1,4 +1,4 @@
-import {createElement, getFormattedDate} from '../utils.js';
+import {createElement, getDateComponents} from '../utils.js';
 
 const createTripInfoTemplate = (points) => {
 
@@ -10,23 +10,30 @@ const createTripInfoTemplate = (points) => {
         </p>
       </section>`
     );
-
   }
+
+  const getTripPeriod = (firstDay, lastDay) => {
+    const firstDayComponent = getDateComponents(firstDay);
+    const lastDayComponent = getDateComponents(lastDay);
+
+    //  формат mmmm dd - dd
+    if (firstDayComponent.year === lastDayComponent.year && firstDayComponent.month === lastDayComponent.month) {
+      return `${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.day}`;
+    };
+
+    //  формат mmmm dd - mmmm dd
+    if (firstDayComponent.year === lastDayComponent.year) {
+      return `${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.textMonth} ${lastDayComponent.day}`;
+    };
+
+    //  формат yyyy mmmm dd - yyyy mmmm dd
+    return `${firstDayComponent.year} ${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.year} ${lastDayComponent.textMonth} ${lastDayComponent.day}`;
+  };
 
   const mainPrice = points.reduce((sum, current) => sum + current.base_price +
     current.offers.reduce((sumOffers, currentOffer) => sumOffers + currentOffer.price, 0), 0);
   const firstDay = points[0].date_from;
   const lastDay = points[points.length-1].date_to;
-  let tripDates = ``;
-  if (getFormattedDate(firstDay).year === getFormattedDate(lastDay).year && getFormattedDate(firstDay).month === getFormattedDate(lastDay).month) {
-    tripDates = `${getFormattedDate(firstDay).textMonth} ${getFormattedDate(firstDay).day}&nbsp;&mdash;&nbsp;${getFormattedDate(lastDay).day}`;
-  } else {
-    if (getFormattedDate(firstDay).year === getFormattedDate(lastDay).year) {
-      tripDates = `${getFormattedDate(firstDay).textMonth} ${getFormattedDate(firstDay).day}&nbsp;&mdash;&nbsp;${getFormattedDate(lastDay).textMonth} ${getFormattedDate(lastDay).day}`;
-    } else {
-      tripDates = `${getFormattedDate(firstDay).year} ${getFormattedDate(firstDay).textMonth} ${getFormattedDate(firstDay).day}&nbsp;&mdash;&nbsp;${getFormattedDate(lastDay).year} ${getFormattedDate(lastDay).textMonth} ${getFormattedDate(lastDay).day}`;
-    }
-  }
 
   const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
   let cities = points.filter((item) => MOVEMENTS.has(item.type)).map((item) => item.destination.name);
@@ -56,7 +63,7 @@ const createTripInfoTemplate = (points) => {
       <div class="trip-info__main">
         <h1 class="trip-info__title">${tripRoute}</h1>
 
-        <p class="trip-info__dates">${tripDates}</p>
+        <p class="trip-info__dates">${getTripPeriod(firstDay, lastDay)}</p>
       </div>
 
       <p class="trip-info__cost">

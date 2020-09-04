@@ -108,7 +108,7 @@ const generatePoint = (initDate = 0) => {
     is_favorite: getRandomInteger(1,5) === 5,
   };
 
-  console.log(point);
+ // console.log(point);
   return point;
 };
 
