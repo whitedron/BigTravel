@@ -1,8 +1,9 @@
 import SiteMenu from './components/main-menu.js';
 import MainFilter from './components/filter.js';
+import EventSort from './components/sort.js';
 import {createTripInfoTemplate} from './components/trip-info.js';
 //import {createMainFilterTemplate} from './components/filter.js';
-import {createTripSortTemplate} from './components/sort.js';
+//import {createTripSortTemplate} from './components/sort.js';
 import {createTripListTemplate} from './components/list.js';
 import {createTripEventTemplate} from './components/event.js';
 import {createTripEventEditItemTemplate} from './components/event-edit.js';
@@ -37,7 +38,8 @@ renderElement(tripControlsElement, new SiteMenu().getElement(), RenderPosition.A
 renderElement(tripControlsElement, new MainFilter().getElement(), RenderPosition.BEFOREEND);
 
 const tripEventsElement = document.querySelector(`.trip-events`);
-renderTemplate(tripEventsElement, createTripSortTemplate(), `beforeend`);
+//renderTemplate(tripEventsElement, createTripSortTemplate(), `beforeend`);
+renderElement(tripEventsElement, new EventSort().getElement(), RenderPosition.BEFOREEND);
 
 renderTemplate(tripEventsElement, createTripListTemplate(), `beforeend`);
 
