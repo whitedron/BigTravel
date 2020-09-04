@@ -2,6 +2,7 @@ import SiteMenu from './components/main-menu.js';
 import MainFilter from './components/filter.js';
 import EventSort from './components/sort.js';
 import EventList from './components/list.js';
+import BlankList from './components/blank-list.js';
 import {createTripInfoTemplate} from './components/trip-info.js';
 //import {createMainFilterTemplate} from './components/filter.js';
 //import {createTripSortTemplate} from './components/sort.js';
@@ -40,11 +41,13 @@ renderElement(tripControlsElement, new MainFilter().getElement(), RenderPosition
 
 const tripEventsElement = document.querySelector(`.trip-events`);
 //renderTemplate(tripEventsElement, createTripSortTemplate(), `beforeend`);
-renderElement(tripEventsElement, new EventSort().getElement(), RenderPosition.BEFOREEND);
+if (points.length === 0) {
+  renderElement(tripEventsElement, new BlankList().getElement(), RenderPosition.BEFOREEND);
 
-//renderTemplate(tripEventsElement, createTripListTemplate(), `beforeend`);
-renderElement(tripEventsElement, new EventList().getElement(), RenderPosition.BEFOREEND);
+} else {
 
+  renderElement(tripEventsElement, new EventSort().getElement(), RenderPosition.BEFOREEND);
+  renderElement(tripEventsElement, new EventList().getElement(), RenderPosition.BEFOREEND);
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-days`);
 
 //render(tripEventsListElement, createTripEventCreateTemplate(), `beforeend`);
@@ -89,4 +92,5 @@ for (let i = 1; i < points.length; i++) {
   .querySelector(`.trip-events__list`);
 
   renderTemplate(currentDateContainer, createTripEventTemplate(points[i]), `beforeend`);
+}
 }

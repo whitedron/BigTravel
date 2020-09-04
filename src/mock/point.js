@@ -112,8 +112,8 @@ const generatePoint = (initDate = 0) => {
   return point;
 };
 
-const MAX_POINT_COUNT = 10;
-const MIN_POINT_COUNT = 3;
+const MAX_POINT_COUNT = 1;
+const MIN_POINT_COUNT = 0;
 
 export const generatePoints = () => {
   const START_TRIP_HOURS_GAP = 100;

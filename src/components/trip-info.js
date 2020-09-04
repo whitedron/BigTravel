@@ -15,6 +15,17 @@ export const createTripInfoTemplate = (points) => {
    };
   };
 
+  if (points.length === 0) {
+    return (
+      `<section class="trip-main__trip-info  trip-info">
+        <p class="trip-info__cost">
+          Total: &euro;&nbsp;<span class="trip-info__cost-value">0</span>
+        </p>
+      </section>`
+    );
+
+  }
+
   const mainPrice = points.reduce((sum, current) => sum + current.base_price +
     current.offers.reduce((sumOffers, currentOffer) => sumOffers + currentOffer.price, 0), 0);
   const firstDay = points[0].date_from;
