@@ -1,4 +1,5 @@
 //import {createDayListTemplate} from './day-event-list.js';
+import {createElement, getDateComponents, getDatesDifference} from '../utils.js';
 
 const renderAction = (type) => {
   const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
@@ -7,33 +8,15 @@ const renderAction = (type) => {
 }
 
 const renderOffers = (offers) => {
-  return offers.map((offer) => `
-  <li class="event__offer">
-  <span class="event__offer-title">${offer.title}</span>
-  &plus;
-  &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
- </li>`).join(``);
-}
-
-const getTimeInHHMM = (date) => {
-  const hours = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
-  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
-  return `${hours}:${minutes}`;
+  return offers.map((offer) =>
+  `<li class="event__offer">
+   <span class="event__offer-title">${offer.title}</span>
+   &plus;
+   &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
+   </li>`).join(``);
 };
 
-const getDatesDifference = (dateFrom = 0, dateTo = 0) => {
-  const differenceInMinutes = Math.floor(dateTo / (60 * 1000)) - Math.floor(dateFrom / (60 * 1000));
-  const differenceMinutes = differenceInMinutes % 60 < 10 ? `0${differenceInMinutes % 60}M` : `${differenceInMinutes % 60}M`;
-  const differenceHours = (Math.floor(differenceInMinutes / 60)) % 24 < 10 ? `0${Math.floor((differenceInMinutes / 60)) % 24}H` : `${Math.floor((differenceInMinutes / 60)) % 24}H`;
-  const differenceDays = Math.floor(differenceInMinutes / (60 * 24)) < 10 ? `0${Math.floor(differenceInMinutes / (60 * 24))}D` : `${Math.floor(differenceInMinutes / (60 * 24))}D`;
-
-  if (differenceInMinutes < 0) { return `` };  /// ошибка дат
-  if (differenceInMinutes < 60) { return `${differenceMinutes}` };  // до часа
-  if (differenceInMinutes < 60 * 24) { return `${differenceHours} ${differenceMinutes}` };  // до суток
-  return `${differenceDays} ${differenceHours} ${differenceMinutes}`;
-};
-
-export const createTripEventTemplate = (point) => {
+const createTripEventTemplate = (point) => {
   const {base_price, destination, type, offers, date_from, date_to} = point;
 
   const eventOffers = offers.length > 0
@@ -53,9 +36,9 @@ export const createTripEventTemplate = (point) => {
 
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${date_from.toISOString()}">${getTimeInHHMM(date_from)}</time>
+          <time class="event__start-time" datetime="${date_from.toISOString()}">${getDateComponents(date_from).hours}:${getDateComponents(date_from).minutes}</time>
           &mdash;
-          <time class="event__end-time" datetime="${date_to.toISOString()}">${getTimeInHHMM(date_to)}</time>
+          <time class="event__end-time" datetime="${date_to.toISOString()}">${getDateComponents(date_to).hours}:${getDateComponents(date_to).minutes}</time>
         </p>
         <p class="event__duration">${getDatesDifference(date_from, date_to)}</p>
       </div>
@@ -70,7 +53,29 @@ export const createTripEventTemplate = (point) => {
         <span class="visually-hidden">Open event</span>
       </button>
     </div>
-  </li>
-`
+  </li>`
   );
 };
+
+export default class Event {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,16 +1,15 @@
-export const createDayListTemplate = (date, tripDay) => {
-  const day = date.getDate()<10 ? `0${date.getDate()}` : `${date.getDate()}`;
-  const month = (date.getMonth()+1)<10 ? `0${(date.getMonth()+1)}` : `${(date.getMonth()+1)}`;
-  const year = `${date.getFullYear()}`;
-  const textMonth = date.toLocaleString(`en`, {
-    month: `short`
-  });
+import { createElement, getDateComponents } from '../utils.js';
 
-  return (`
-    <li class="trip-days__item  day">
+const createDayListTemplate = (date, tripDay) => {
+
+  const parsedDate = getDateComponents(date);
+
+  return (
+    `<li class="trip-days__item  day">
        <div class="day__info">
           <span class="day__counter">${tripDay}</span>
-          <time class="day__date" datetime="${year}-${month}-${day}">${textMonth} ${day}</time>
+          <time class="day__date" datetime="${parsedDate.year}-${parsedDate.month}-${parsedDate.day}">
+          ${parsedDate.textMonth} ${parsedDate.day}</time>
       </div>
 
       <ul class="trip-events__list">
@@ -19,3 +18,27 @@ export const createDayListTemplate = (date, tripDay) => {
     </li>
 `);
 };
+
+export default class TripDay {
+  constructor(date, dayNumber) {
+    this._date = date;
+    this._dayNumber = dayNumber;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createDayListTemplate(this._date, this._dayNumber);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -12,6 +12,9 @@ const createTripInfoTemplate = (points) => {
     );
   }
 
+  const tripFirstDay = points[0].date_from;
+  const tripLastDay = points[points.length - 1].date_to;
+
   const getTripPeriod = (firstDay, lastDay) => {
     const firstDayComponent = getDateComponents(firstDay);
     const lastDayComponent = getDateComponents(lastDay);
@@ -19,12 +22,12 @@ const createTripInfoTemplate = (points) => {
     //  формат mmmm dd - dd
     if (firstDayComponent.year === lastDayComponent.year && firstDayComponent.month === lastDayComponent.month) {
       return `${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.day}`;
-    };
+    }
 
     //  формат mmmm dd - mmmm dd
     if (firstDayComponent.year === lastDayComponent.year) {
       return `${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.textMonth} ${lastDayComponent.day}`;
-    };
+    }
 
     //  формат yyyy mmmm dd - yyyy mmmm dd
     return `${firstDayComponent.year} ${firstDayComponent.textMonth} ${firstDayComponent.day}&nbsp;&mdash;&nbsp;${lastDayComponent.year} ${lastDayComponent.textMonth} ${lastDayComponent.day}`;
@@ -32,38 +35,37 @@ const createTripInfoTemplate = (points) => {
 
   const mainPrice = points.reduce((sum, current) => sum + current.base_price +
     current.offers.reduce((sumOffers, currentOffer) => sumOffers + currentOffer.price, 0), 0);
-  const firstDay = points[0].date_from;
-  const lastDay = points[points.length-1].date_to;
+
 
   const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
   let cities = points.filter((item) => MOVEMENTS.has(item.type)).map((item) => item.destination.name);
-  console.log(cities);
-  for (let i=0; i<cities.length; i++) {
-    if (cities[i] === cities[i+1]) {
-      cities.splice(i,1);
-     // i=-1;
-     i--;
+  // console.log(cities);
+  for (let i = 0; i < cities.length; i++) {
+    if (cities[i] === cities[i + 1]) {
+      cities.splice(i, 1);
+      // i=-1;
+      i--;
     }
   }
-  console.log(cities);
+  // console.log(cities);
 
-  let tripRoute=``;
+  let tripRoute = ``;
   if (cities.length === 1) {
-    tripRoute = cities[0]
+    tripRoute = cities[0];
   } else {
     if (cities.length < 4) {
-      tripRoute = cities.join(` &mdash; `)
+      tripRoute = cities.join(` &mdash; `);
     } else {
-      tripRoute = [cities[0], `&hellip;`,cities[cities.length-1]].join(` &mdash; `)
+      tripRoute = [cities[0], `&hellip;`, cities[cities.length - 1]].join(` &mdash; `);
     }
-  };
+  }
 
   return (
     `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
         <h1 class="trip-info__title">${tripRoute}</h1>
 
-        <p class="trip-info__dates">${getTripPeriod(firstDay, lastDay)}</p>
+        <p class="trip-info__dates">${getTripPeriod(tripFirstDay, tripLastDay)}</p>
       </div>
 
       <p class="trip-info__cost">
