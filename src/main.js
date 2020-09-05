@@ -6,6 +6,7 @@ import BlankList from './components/blank-list.js';
 import TripInfo from './components/trip-info.js';
 import TripDay from './components/day-event-list.js';
 import Event from './components/event.js';
+import EditEvent from './components/event-edit.js';
 import { createTripEventEditItemTemplate } from './components/event-edit.js';
 import { createTripEventCreateTemplate } from './components/event-create.js';
 import { createDayListTemplate } from './components/day-event-list.js';
@@ -25,6 +26,46 @@ renderElement(tripControlsElement, new SiteMenu().getElement(), RenderPosition.A
 renderElement(tripControlsElement, new MainFilter().getElement(), RenderPosition.BEFOREEND);
 
 const tripEventsElement = document.querySelector(`.trip-events`);
+
+const renderEvent = (tripDayElement, event, offers) => {
+  const eventComponent = new Event(event);
+  const eventEditComponent = new EditEvent(event, offers);
+
+  const replaceEventToEditEvent = () => {
+    tripDayElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+  };
+
+  const replaceEditEventToEvent = () => {
+    tripDayElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceEditEventToEvent();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    document.addEventListener(`keydown`, onEscKeyDown);
+    replaceEventToEditEvent();
+  });
+
+  eventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceEditEventToEvent();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceEditEventToEvent();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  renderElement(tripDayElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+}
+
 
 if (points.length === 0) {
   renderElement(tripEventsElement, new BlankList().getElement(), RenderPosition.BEFOREEND);
@@ -55,6 +96,8 @@ if (points.length === 0) {
       .closest(`.trip-days__item`)
       .querySelector(`.trip-events__list`);;
 
-    renderElement(currentDateContainer, new Event(points[i]).getElement(), RenderPosition.BEFOREEND);
+      renderEvent(currentDateContainer, points[i], offers);
+    //renderElement(currentDateContainer, new Event(points[i]).getElement(), RenderPosition.BEFOREEND);
+    //renderElement(currentDateContainer, new EditEvent(points[i], offers).getElement(), RenderPosition.BEFOREEND);
   };
 }

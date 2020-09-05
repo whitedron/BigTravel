@@ -1,8 +1,4 @@
-const renderAction = (type) => {
-  const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
-  const action = MOVEMENTS.has(type) ? `${type} to` : `${type} in`;
-  return `${action.charAt(0).toUpperCase()}${action.slice(1)}`;
-};
+import {createElement, getDateComponents, getDatesDifference, writeAction} from '../utils.js';
 
 const POINT_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`, `check-in`, `sightseeing`, `restaurant`];
 
@@ -16,16 +12,11 @@ const renderTypesList = (eventTypes, checkedType) => {
 
 //// 18/03/19 12:25
 const getFormatedDate = (date) => {
-  const day = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
-  const month = (date.getMonth() + 1) < 10 ? `0${(date.getMonth() + 1)}` : `${(date.getMonth() + 1)}`;
-  const year = `${date.getFullYear()}`.slice(-2);
-  const hour = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
-  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
-
-  return `${day}/${month}/${year} ${hour}:${minutes}`;
+  const  {day, month, year, textMonth, hours, minutes} = getDateComponents(date);
+  return `${day}/${month}/${year.slice(-2)} ${hours}:${minutes}`;
 }
 
-export const createTripEventEditItemTemplate = (point, allOffers) => {
+const createTripEventEditItemTemplate = (point, allOffers) => {
   const {base_price, destination, type, offers, date_from, date_to, is_favorite} = point;
 
   const currentTypeOffers = allOffers.filter(item => item.type === type);
@@ -109,7 +100,7 @@ ${destinationPhotosList}
 
           <div class="event__field-group  event__field-group--destination">
             <label class="event__label  event__type-output" for="event-destination-1">
-            ${renderAction(type)}
+            ${writeAction(type)}
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
             <datalist id="destination-list-1">
@@ -163,3 +154,27 @@ ${destinationPhotosList}
     </li>`
   );
 };
+
+export default class EditEvent {
+  constructor(event, offers) {
+    this._event = event;
+    this._offers = offers;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEventEditItemTemplate(this._event, this._offers);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

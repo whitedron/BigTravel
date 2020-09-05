@@ -1,11 +1,4 @@
-//import {createDayListTemplate} from './day-event-list.js';
-import {createElement, getDateComponents, getDatesDifference} from '../utils.js';
-
-const renderAction = (type) => {
-  const MOVEMENTS = new Set([`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`]);
-  const action = MOVEMENTS.has(type) ? `${type} to` : `${type} in`;
-  return `${action.charAt(0).toUpperCase()}${action.slice(1)}`;
-}
+import {createElement, getDateComponents, getDatesDifference, writeAction} from '../utils.js';
 
 const renderOffers = (offers) => {
   return offers.map((offer) =>
@@ -32,7 +25,7 @@ const createTripEventTemplate = (point) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${renderAction(type)} ${destination.name}</h3>
+      <h3 class="event__title">${writeAction(type)} ${destination.name}</h3>
 
       <div class="event__schedule">
         <p class="event__time">
