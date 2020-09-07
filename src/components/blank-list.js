@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./Abstract.js";
 
 const createBlankListTemplate = () => {
   return (
@@ -6,24 +6,10 @@ const createBlankListTemplate = () => {
   );
 };
 
-export default class BlankList {
-  constructor() {
-    this._element = null;
-  }
+export default class BlankList extends AbstractComponent{
 
   getTemplate() {
     return createBlankListTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
