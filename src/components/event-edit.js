@@ -1,4 +1,4 @@
-import {createElement, getDateComponents, getDatesDifference, writeAction} from '../utils.js';
+import {createElement, getDateComponents, writeAction} from '../utils.js';
 
 const POINT_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`, `check-in`, `sightseeing`, `restaurant`];
 
