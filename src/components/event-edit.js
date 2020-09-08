@@ -159,10 +159,31 @@ export default class EditEvent extends AbstractComponent {
     super();
     this._event = event;
     this._offers = offers;
+    this._rollupClickHandler = this._rollupClickHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createTripEventEditItemTemplate(this._event, this._offers);
   }
 
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  _rollupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollupClick();
+  }
+
+  setRollupClickHandler(callback) {
+    this._callback.rollupClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
+  }
 }

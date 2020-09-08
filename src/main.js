@@ -45,18 +45,17 @@ const renderEvent = (tripDayElement, event, offers) => {
     }
   };
 
-  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventComponent.setExpandClickHandler(() => {
     document.addEventListener(`keydown`, onEscKeyDown);
     replaceEventToEditEvent();
   });
 
-  eventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventEditComponent.setRollupClickHandler(() =>{
     replaceEditEventToEvent();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  eventEditComponent.setFormSubmitHandler(() => {
     replaceEditEventToEvent();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
