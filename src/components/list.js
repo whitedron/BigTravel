@@ -1,5 +1,4 @@
-import {createElement} from "../utils.js";
-import AbstractComponent from "./Abstract.js";
+import AbstractComponent from './Abstract.js';
 
 const createTripListTemplate = () => {
   return (
@@ -9,7 +8,7 @@ const createTripListTemplate = () => {
   );
 };
 
-export default class EventList extends AbstractComponent{
+export default class EventList extends AbstractComponent {
 
   getTemplate() {
     return createTripListTemplate();

@@ -1,4 +1,5 @@
-import {createElement, getDateComponents, writeAction} from '../utils.js';
+import {getDateComponents, writeAction} from '../utils.js';
+import AbstractComponent from './Abstract.js';
 
 const POINT_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`, `check-in`, `sightseeing`, `restaurant`];
 
@@ -8,37 +9,35 @@ const renderTypesList = (eventTypes, checkedType) => {
   <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === checkedType ? `checked` : ``}>
   <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase()}${type.slice(1)}</label>
   </div>`).join(``);
-}
+};
 
-//// 18/03/19 12:25
+// 18/03/19 12:25
 const getFormatedDate = (date) => {
-  const  {day, month, year, textMonth, hours, minutes} = getDateComponents(date);
+  const {day, month, year, textMonth, hours, minutes} = getDateComponents(date);
   return `${day}/${month}/${year.slice(-2)} ${hours}:${minutes}`;
-}
+};
 
 const createTripEventEditItemTemplate = (point, allOffers) => {
   const {base_price, destination, type, offers, date_from, date_to, is_favorite} = point;
 
-  const currentTypeOffers = allOffers.filter(item => item.type === type);
+  const currentTypeOffers = allOffers.filter((item) => item.type === type);
 
   const currentTypeOffersTemplate = currentTypeOffers.map((offerTypeItem) => {
     return offerTypeItem.offers.map((offer) => {
-      const isCheckedOffer = offers.find((item) => (item.title == offer.title) && (item.price == offer.price)) ? `checked` : ``;
-      return `
-       <div class="event__offer-selector">
+      const isCheckedOffer = offers.find((item) => (item.title === offer.title) && (item.price === offer.price)) ? `checked` : ``;
+      return `<div class="event__offer-selector">
        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-${offer.price}" type="checkbox" name="event-offer-${offer.title}-${offer.price}" ${isCheckedOffer}>
        <label class="event__offer-label" for="event-offer-${offer.title}-${offer.price}">
          <span class="event__offer-title">${offer.title}</span>
          &plus;
          &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
        </label>
-     </div>
-       `
-    })
+      </div>`;
+    });
   }).join(``);
 
 
-  const currentItemOffers = currentTypeOffersTemplate != ``
+  const currentItemOffers = currentTypeOffersTemplate !== ``
     ? `<section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
@@ -48,7 +47,7 @@ const createTripEventEditItemTemplate = (point, allOffers) => {
   </section>`
     : ``;
 
-  const destinationPhotosList = destination.pictures.map(item =>
+  const destinationPhotosList = destination.pictures.map((item) =>
     `<img class="event__photo" src="${item.src}" alt="${item.description}"></img>`
   ).join(``);
 
@@ -63,7 +62,7 @@ ${destinationPhotosList}
   <p class="event__destination-description">${destination.description}</p>
 `;
 
-  const currentItemDestanationInfo = destinationPhotosTemplate != `` || destinationDescription != `` ?
+  const currentItemDestanationInfo = destinationPhotosTemplate !== `` || destinationDescription !== `` ?
     `<section class="event__section  event__section--destination">
  <h3 class="event__section-title  event__section-title--destination">Destination</h3>
  ${destinationDescription}
@@ -155,26 +154,15 @@ ${destinationPhotosList}
   );
 };
 
-export default class EditEvent {
+export default class EditEvent extends AbstractComponent {
   constructor(event, offers) {
+    super();
     this._event = event;
     this._offers = offers;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripEventEditItemTemplate(this._event, this._offers);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }

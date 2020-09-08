@@ -1,4 +1,4 @@
-import AbstractComponent from "./Abstract.js";
+import AbstractComponent from './Abstract.js';
 
 const createBlankListTemplate = () => {
   return (
@@ -6,7 +6,7 @@ const createBlankListTemplate = () => {
   );
 };
 
-export default class BlankList extends AbstractComponent{
+export default class BlankList extends AbstractComponent {
 
   getTemplate() {
     return createBlankListTemplate();

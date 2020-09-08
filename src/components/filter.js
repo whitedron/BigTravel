@@ -1,5 +1,4 @@
-import {createElement} from "../utils.js";
-import AbstractComponent from "./Abstract.js";
+import AbstractComponent from './Abstract.js';
 
 const createMainFilterTemplate = () => {
   return (
@@ -24,7 +23,7 @@ const createMainFilterTemplate = () => {
   );
 };
 
-export default class MainFilter extends AbstractComponent{
+export default class MainFilter extends AbstractComponent {
 
   getTemplate() {
     return createMainFilterTemplate();

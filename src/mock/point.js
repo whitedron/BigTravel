@@ -27,7 +27,7 @@ export const generateDestanation = () => {
     `Nuncfermentum tortor ac porta dapibus.`,
     `In rutrum ac purus sit amet tempus.`
   ];
-   const NAMES = [
+  const NAMES = [
     `Prague`,
     `Minsk`,
     `Brest`,
@@ -91,7 +91,7 @@ const generatePoint = (initDate = 0) => {
 
   const type = POINT_TYPES[getRandomInteger(0, POINT_TYPES.length - 1)];
   const pointTypeOffers = offers.find((item) => item.type === type);
-  const pointOffers = pointTypeOffers ? pointTypeOffers.offers.filter((item) => getRandomInteger(0, 1) === 1) : [];
+  const pointOffers = pointTypeOffers ? pointTypeOffers.offers.filter(() => getRandomInteger(0, 1) === 1) : [];
 
   let dateFrom = new Date(initDate);
   dateFrom.setMinutes(dateFrom.getMinutes() + getRandomInteger(0, EVENT_MINUTES_MAX_DELAY));

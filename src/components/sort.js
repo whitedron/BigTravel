@@ -1,5 +1,4 @@
-import {createElement} from "../utils.js";
-import AbstractComponent from "./Abstract.js";
+import AbstractComponent from './Abstract.js';
 
 const createTripSortTemplate = () => {
   return (
@@ -31,7 +30,7 @@ const createTripSortTemplate = () => {
 };
 
 
-export default class EventSort extends AbstractComponent{
+export default class EventSort extends AbstractComponent {
 
   getTemplate() {
     return createTripSortTemplate();

@@ -1,12 +1,13 @@
-import {createElement, getDateComponents, getDatesDifference, writeAction} from '../utils.js';
+import {getDateComponents, getDatesDifference, writeAction} from '../utils.js';
+import AbstractComponent from './Abstract.js';
 
 const renderOffers = (offers) => {
   return offers.map((offer) =>
-  `<li class="event__offer">
-   <span class="event__offer-title">${offer.title}</span>
-   &plus;
-   &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
-   </li>`).join(``);
+    `<li class="event__offer">
+     <span class="event__offer-title">${offer.title}</span>
+     &plus;
+     &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
+     </li>`).join(``);
 };
 
 const createTripEventTemplate = (point) => {
@@ -15,7 +16,7 @@ const createTripEventTemplate = (point) => {
   const eventOffers = offers.length > 0
     ? `<h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-      ${renderOffers(offers.slice(0,3))}
+      ${renderOffers(offers.slice(0, 3))}
     </ul>`
     : ``;
 
@@ -50,25 +51,14 @@ const createTripEventTemplate = (point) => {
   );
 };
 
-export default class Event {
+export default class Event extends AbstractComponent {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
