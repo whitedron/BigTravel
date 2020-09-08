@@ -1,5 +1,5 @@
-import {getDateComponents} from '../utils.js';
-import AbstractComponent from './Abstract.js';
+import {getDateComponents} from '../utils/common.js';
+import AbstractComponent from './abstract.js';
 
 const createDayListTemplate = (date, tripDay) => {
 

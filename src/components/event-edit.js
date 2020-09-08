@@ -1,5 +1,5 @@
-import {getDateComponents, writeAction} from '../utils.js';
-import AbstractComponent from './Abstract.js';
+import {getDateComponents, writeAction} from '../utils/common.js';
+import AbstractComponent from './abstract.js';
 
 const POINT_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`, `check-in`, `sightseeing`, `restaurant`];
 

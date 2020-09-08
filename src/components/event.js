@@ -1,5 +1,5 @@
-import {getDateComponents, getDatesDifference, writeAction} from '../utils.js';
-import AbstractComponent from './Abstract.js';
+import {getDateComponents, getDatesDifference, writeAction} from '../utils/common.js';
+import AbstractComponent from './abstract.js';
 
 const renderOffers = (offers) => {
   return offers.map((offer) =>

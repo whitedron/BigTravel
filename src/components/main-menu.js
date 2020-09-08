@@ -1,4 +1,4 @@
-import AbstractComponent from './Abstract.js';
+import AbstractComponent from './abstract.js';
 
 const createMainMenuTemplate = () => {
   return (

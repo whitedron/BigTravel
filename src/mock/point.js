@@ -1,6 +1,6 @@
 const POINT_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`, `check-in`, `sightseeing`, `restaurant`];
 
-import {getRandomInteger} from '../utils.js';
+import {getRandomInteger} from '../utils/common.js';
 
 export const generateDestanation = () => {
   const MAX_PHOTO_COUNT = 5;
