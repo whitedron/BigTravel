@@ -6,6 +6,12 @@ export const RenderPosition = {
   AFTER: `after`
 };
 
+export const SortType = {
+  EVENT: `event`,
+  TIME: `time`,
+  PRICE: `price`
+};
+
 export const render = (container, child, place, reference) => {
   if (container instanceof Abstract) {
     container = container.getElement();

@@ -47,3 +47,16 @@ export const writeAction = (type) => {
   const action = MOVEMENTS.has(type) ? `${type} to` : `${type} in`;
   return `${action.charAt(0).toUpperCase()}${action.slice(1)}`;
 };
+
+
+export const sortByTime = (eventA, eventB) => {
+  const durationEventA = eventA.date_to - eventA.date_from;
+  const durationEventB = eventB.date_to - eventB.date_from;
+
+  return durationEventA - durationEventB;
+};
+
+export const sortByPrice = (eventA, eventB) => {
+
+  return eventA.price - eventB.price;
+};

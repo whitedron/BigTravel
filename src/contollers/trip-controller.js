@@ -4,16 +4,19 @@ import BlankList from '../components/blank-list.js';
 import TripDay from '../components/day-event-list.js';
 import Event from '../components/event.js';
 import EditEvent from '../components/event-edit.js';
-import {render, RenderPosition, remove, replace} from '../utils/render.js';
-import {getDateComponents} from '../utils/common.js';
+import {render, RenderPosition, remove, replace, SortType} from '../utils/render.js';
+import {getDateComponents, sortByTime, sortByPrice} from '../utils/common.js';
 
 export default class TripController {
   constructor(tripContainer) {
     this._tripContainer = tripContainer;
+    this._currentSortType = SortType.EVENT;
 
     this._eventSortComponent = new EventSort();
     this._eventListComponent = new EventList();
     this._blankListComponent = new BlankList();
+
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(points, offers) {
@@ -31,9 +34,42 @@ export default class TripController {
     }
   }
 
+  _handleSortTypeChange(sortType) {
+    // - Сортируем задачи
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortPoints(sortType);
+    // - Очищаем список
+    // - Рендерим список заново
+  }
+
+  _sortPoints(sortType) {
+    // 2. Этот исходный массив задач необходим,
+    // потому что для сортировки мы будем мутировать
+    // массив в свойстве _points
+    switch (sortType) {
+      case SortType.TIME:
+        this._points.sort(sortByTime);
+        break;
+      case SortType.PRICE:
+        this._points.sort(sortByPrice);
+        break;
+      case SortType.EVENT:
+      default:
+        // 3. А когда пользователь захочет "вернуть всё, как было",
+        // мы просто запишем в _points исходный массив
+        this._points = this._sourcedpoints.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
   _renderSort() {
     // Метод для рендеринга сортировки
     render(this._tripContainer, this._eventSortComponent, RenderPosition.BEFOREEND);
+    this._eventSortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderEvent(point) {
