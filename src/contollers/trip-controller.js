@@ -42,7 +42,16 @@ export default class TripController {
 
     this._sortPoints(sortType);
     // - Очищаем список
+    this._clearEventList();
     // - Рендерим список заново
+
+    this._renderTripDays();
+
+    this._renderEvents();
+  }
+
+  _clearEventList() {
+    this._eventListComponent.getElement().innerHTML = ``;
   }
 
   _sortPoints(sortType) {
@@ -60,7 +69,7 @@ export default class TripController {
       default:
         // 3. А когда пользователь захочет "вернуть всё, как было",
         // мы просто запишем в _points исходный массив
-        this._points = this._sourcedpoints.slice();
+        this._points = this._sourcedPoints.slice();
     }
 
     this._currentSortType = sortType;
@@ -118,18 +127,28 @@ export default class TripController {
   _renderEvents() {
     // Метод для рендеринга всех событий
     this._points.forEach((point) => {
-      this._renderTripDay(point);
       this._renderEvent(point);
     });
   }
 
+  _renderTripDays() {
+    // Метод для рендеринга всех контейнеров дней
+    this._points.forEach((point) => {
+      this._renderTripDay(point);
+    });
+  }
+
   _getCurrentEventDataContainer(currentDate) {
-    // вспомогательнаф функция поиска уже созданного контейнера событий дня
+    // вспомогательная функция поиска уже созданного контейнера событий дня
     const day = getDateComponents(currentDate).day;
     const month = getDateComponents(currentDate).month;
     const year = getDateComponents(currentDate).year;
 
-    const currentEventDateContainer = this._eventListComponent.getElement().querySelector(`.day__date[datetime="${year}-${month}-${day}"]`);
+    const desiredDay = this._currentSortType === SortType.EVENT ?
+    `.day__date[datetime="${year}-${month}-${day}"]` :
+    `.trip-days__item`
+
+    const currentEventDateContainer = this._eventListComponent.getElement().querySelector(desiredDay);
 
     if (currentEventDateContainer) {
       return currentEventDateContainer.closest(`.trip-days__item`).querySelector(`.trip-events__list`);
@@ -143,8 +162,11 @@ export default class TripController {
     const currentDate = point.date_from;
 
     if (!this._getCurrentEventDataContainer(currentDate)) {
-      const tripDaysCount = Math.floor((currentDate - this._firstTripDay) / (60 * 24 * 60 * 1000));
-      const tripDayComponent = new TripDay(currentDate, tripDaysCount + 1);
+     // const tripDaysCount = Math.floor((currentDate - this._firstTripDay) / (60 * 24 * 60 * 1000));
+      const tripDaysCount = this._currentSortType === SortType.EVENT ?
+      Math.floor((currentDate - this._firstTripDay) / (60 * 24 * 60 * 1000))+1
+      :0;
+      const tripDayComponent = new TripDay(currentDate, tripDaysCount);
       render(this._eventListComponent, tripDayComponent, RenderPosition.BEFOREEND);
     };
 
@@ -169,6 +191,7 @@ export default class TripController {
 
     this._renderSort();
     this._renderEventList();
+    this._renderTripDays();
     this._renderEvents();
   }
 }

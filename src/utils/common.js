@@ -53,10 +53,10 @@ export const sortByTime = (eventA, eventB) => {
   const durationEventA = eventA.date_to - eventA.date_from;
   const durationEventB = eventB.date_to - eventB.date_from;
 
-  return durationEventA - durationEventB;
+  return durationEventB - durationEventA;
 };
 
 export const sortByPrice = (eventA, eventB) => {
 
-  return eventA.price - eventB.price;
+  return eventB.base_price - eventA.base_price;
 };
