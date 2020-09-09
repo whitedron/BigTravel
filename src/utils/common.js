@@ -57,6 +57,11 @@ export const sortByTime = (eventA, eventB) => {
 };
 
 export const sortByPrice = (eventA, eventB) => {
+  const getEventFullPrice = (event) => {
+    return event.base_price + event.offers.reduce((sumOffers, currentOffer) => sumOffers + currentOffer.price, 0)
+  }
 
-  return eventB.base_price - eventA.base_price;
+ // return eventB.base_price - eventA.base_price;
+
+  return getEventFullPrice(eventB) - getEventFullPrice(eventA)
 };
